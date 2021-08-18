@@ -1,0 +1,20 @@
+bool check;
+
+		for (int i = 1; i <= N; i++) {
+			check = false;
+			for (int e = 1; e <= N; e++) {
+
+				for (int r = 0; r < graph[e].size(); r++) {
+					int dst = graph[e][r].first;
+					int cost = graph[e][r].second;
+
+					if (dis[dst] > dis[e] + cost)
+					{
+						dis[dst] = dis[e] + cost;
+						check = true;
+					}
+				}
+			}
+			if (check == false)
+				break;
+		}
