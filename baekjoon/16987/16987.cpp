@@ -11,8 +11,6 @@ int _max = -1;
 
 vector<pair<int, int>> vec;
 
-vector<pair<int, int>> log;
-
 void f(int idx)
 {
     if (idx == N)
@@ -27,23 +25,17 @@ void f(int idx)
 
     if (vec[idx].first <= 0)
     {
-        //cout << idx << "!";
         f(idx + 1);
     }
     else
     {
-        //cout << idx << "@";
         for (int i = 0; i < N; i++)
         {
-            //cout << idx << ", " << i << "$\n";
             if (i == idx || vec[i].first <= 0)
                 continue;
-            //cout << idx << ", " << i << "%\n";
             vec[i].first -= vec[idx].second;
             vec[idx].first -= vec[i].second;
-            log.push_back(make_pair(idx, i));
             f(idx + 1);
-            log.pop_back();
             vec[i].first += vec[idx].second;
             vec[idx].first += vec[i].second;
         }
@@ -53,10 +45,6 @@ void f(int idx)
         if (e.first <= 0)
             cnt++;
     _max = max(_max, cnt);
-
-    // for (auto e : log)
-    //     cout << "(" << e.first << ", " << e.second << ") " << vec[e.first].first << ", " << vec[e.second].first << " ";
-    // cout << "\n";
 }
 
 int main()
