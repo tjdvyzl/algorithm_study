@@ -101,5 +101,11 @@ vector<int> sieve(int n)
 
 # 이항계수
 
+![excel-function-per-com-02](https://user-images.githubusercontent.com/76881971/166615138-6d1c0274-11f7-42d8-acce-858d55e59c19.png)
+
+![1_SSZ5d73vC2R7srpdjcVqxg](https://user-images.githubusercontent.com/76881971/166615468-279d04ab-a54a-401d-aa22-88e85dc0de04.png)
+
+## n-1 C r-1 + n-1 C r = n C r
+
 
 # 행렬(Matrix)
