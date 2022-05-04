@@ -137,6 +137,7 @@ vector<int> sieve(int n)
 
         int r = 1LL * temp * temp;
 
+        // k가 홀수일 
         if (k % 2)
              r = 1LL * r * n % C;
 
