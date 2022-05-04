@@ -107,5 +107,21 @@ vector<int> sieve(int n)
 
 ## n-1 C r-1 + n-1 C r = n C r
 
+<code>
+    const int C = 10007;
+
+    int dp[1005][1005];
+
+    int f(int n, int r)
+    {
+        if (n == r)
+            return 1;
+        if (r == 0)
+            return 1;
+        if (dp[n][r] > 0)
+            return dp[n][r];
+        return dp[n][r] = (f(n - 1, r - 1) % C + f(n - 1, r)) % C;
+    }
+</code>
 
 # 행렬(Matrix)
