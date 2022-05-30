@@ -55,3 +55,16 @@
     }
   
 </code>
+
+
+<hr>
+
+<h1>algorithm 라이브러리 내장 함수 사용</h1>
+<code>
+  
+    cout << lower_bound(3) << "\n";
+    cout << upper_bound(3) << "\n";
+    cout << lower_bound(vec.begin(), vec.end(), 3) - vec.begin() << "\n";
+    cout << upper_bound(vec.begin(), vec.end(), 3) - vec.begin() << "\n";
+  
+</code>
