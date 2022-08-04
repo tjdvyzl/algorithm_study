@@ -2,74 +2,62 @@
 using namespace std;
 #include <algorithm>
 #include <queue>
+#include <stack>
 #include <string.h>
 #include <vector>
 
+// 1000000000 1000000000 4999 10000
+
 #define FIO ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0);
 
-vector<int> graph[1005];
-int arr[1005]; // 각 정점 번호에 대해 걸리는 시간 저장
+long long X, Y, W, S;
 
-int dis[1005]; // 해당 정점까지 건설 할 조건을 충족시키는데에 걸리는 시간
-
-bool visit[1005];
-
-void init(int n) {
-  for (int i = 0; i <= n; i++) {
-    graph[i].clear();
-    visit[i] = false;
-  }
-}
-
-void dfs(int v, int before_v) {
-
-  // 아직 탐색할 가지가 남은 경우
-
-  for (int i = 0; i < graph[v].size(); i++) {
-    int e = graph[v][i];
-
-    // 다음 정점을 봤는데 이미 조건을 모두 충족시키는 거리가 저장되어있을때 즉,
-    // 말단 정점까지 방문한 적이 있을 때
-    if (visit[e]) {
-      dis[v] = max(dis[v], dis[e] + arr[v]);
-      continue;
-    }
-
-    dfs(e, v);
-  }
-  visit[v] = true;
-
-  if (v == before_v)
-    return;
-
-  dis[before_v] = max(dis[before_v], dis[v] + arr[before_v]);
-}
+long long sum = 0;
 
 int main() {
   FIO;
 
-  int tc;
-  cin >> tc;
-  while (tc--) {
-    int N, K;
-    cin >> N >> K;
-    init(N);
-    for (int i = 1; i <= N; i++) {
-      cin >> arr[i];
-      dis[i] = arr[i];
+  cin >> X >> Y >> W >> S;
+
+  while (X != 0 || Y != 0) {
+    // 대각선으로 가는 직진 루트가 존재할 때
+    if (X > 0 && Y > 0) {
+      // 한 블럭 건너는 루트로 2번 이동 < 대각선 이동
+      // 이땐 대각선으로 이동할 필요가 없다.
+      if (2 * W <= S) {
+        sum += X * W + Y * W;
+        X = 0, Y = 0;
+      }
+      // 대각선 직진 루트가 존재하고, 대각선이 더 효율적일 때
+      else {
+        long long b = (X > Y) ? Y : X;
+        sum += b * S;
+        X -= b;
+        Y -= b;
+      }
     }
+    // 대각선으로 갈 수 없거나 대각선을 꺾어서 가는 루트가 존재할 때
+    else {
+      long long b = (X > Y) ? X : Y;
+      if (W <= S) {
 
-    for (int i = 0; i < K; i++) {
-      int src, dst;
-      cin >> src >> dst;
-      graph[dst].push_back(src);
+        sum += b * W;
+      } else {
+        if (b % 2 == 0) {
+
+          sum += b * S;
+        } else {
+
+          sum += (b / 2) * 2 * S;
+          sum += W;
+        }
+      }
+      X = 0, Y = 0;
     }
-
-    int target;
-    cin >> target;
-
-    dfs(target, target);
-
-    cout << dis[target] << "\n";
   }
+
+  // 9,223,372,036,854,775,807
+  // 9,998,000,000,000
+
+  cout << sum << "\n";
 }
