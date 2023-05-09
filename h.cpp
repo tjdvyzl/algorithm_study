@@ -15,93 +15,26 @@ using namespace std;
 
 typedef long long int ll;
 
-pair<int, ll> tree[2000005];
+int N, M;
 
-int arr[500005];
+int indegree[32222];  // 진입차수
+int outdegree[32222]; // 진출차수
 
-int N;
+vector<int> graph[32222];
 
-void init(int node, int start, int end) {
-  if (start == end) {
-    tree[node] = {start, 1};
-    return;
-  }
-  init(node * 2, start, (start + end) / 2);
-  init(node * 2 + 1, (start + end) / 2 + 1, end);
-
-  int tmp = tree[node * 2].second + tree[node * 2 + 1].second;
-
-  int l = tree[node * 2].first;
-  int r = tree[node * 2 + 1].first;
-
-  if (arr[l] > arr[r])
-    tree[node] = {l, tmp};
-  else if (arr[l] < arr[r])
-    tree[node] = {r, tmp};
-  else
-    tree[node] = {max(l, r), tmp};
-}
-
-void update(int node, int start, int end, int idx) {
-  if (idx < start || idx > end)
-    return;
-
-  if (start == end) {
-    tree[node].second--;
-    return;
-  }
-
-  update(node * 2, start, (start + end) / 2, idx);
-  update(node * 2 + 1, (start + end) / 2 + 1, end, idx);
-
-  ll tmp = tree[node * 2].second + tree[node * 2 + 1].second;
-
-  int l = (tree[node * 2].first == -1) ? 0 : tree[node * 2].first;
-  int r = (tree[node * 2 + 1].first == -1) ? 0 : tree[node * 2 + 1].first;
-
-  if (arr[l] > arr[r])
-    tree[node] = {l, tmp};
-  else if (arr[l] < arr[r])
-    tree[node] = {r, tmp};
-  else
-    tree[node] = {max(l, r), tmp};
-}
-
-ll getValidCnt(int node, int start, int end, int left, int right) {
-  if (end < left || start > right)
-    return 0;
-
-  if (start == end)
-    return tree[node].second;
-
-  if (left <= start && end <= right)
-    return tree[node].second;
-
-  ll lgmi = getValidCnt(node * 2, start, (start + end) / 2, left, right);
-  ll rgmi = getValidCnt(node * 2 + 1, (start + end) / 2 + 1, end, left, right);
-
-  return lgmi + rgmi;
-}
+void dfs() {}
 
 int main() {
   FIO;
-  cin >> N;
-  for (int i = 1; i <= N; i++)
-    cin >> arr[i];
 
-  init(1, 1, N);
+  cin >> N >> M;
 
-  ll ans = 0;
-
-  for (int i = 0; i < N; i++) {
-    int gmi = tree[1].first;
-    arr[gmi] = -1;
-    update(1, 1, N, gmi);
-
-    ll t = getValidCnt(1, 1, N, gmi + 1, N);
-
-    ans += t;
+  for (int i = 0; i < M; i++) {
+    int a, b;
+    // b는 a번 문제를 풀어야 풀 수 있음
+    cin >> a >> b;
+    indegree[b]++;
+    outdegree[a]++;
+    graph[a].push_back(b);
   }
-
-  cout << ans << "\n";
 }
